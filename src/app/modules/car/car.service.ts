@@ -24,9 +24,17 @@ const updateCarInDB = async (_id: string, updatedData: Partial<TCar>) => {
   return result;
 };
 
+const deleteCarInDB = async (_id: string) => {
+  const result = await CarModel.findByIdAndDelete(_id, {
+    new: true,
+  });
+  return result;
+};
+
 export const CarServices = {
   createCarIntoDB,
   getAllCarFromDB,
   getSingleCarFromDB,
   updateCarInDB,
+  deleteCarInDB,
 };

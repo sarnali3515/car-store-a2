@@ -21,8 +21,8 @@ const createCar = async (req: Request, res: Response) => {
     }
 
     res.status(500).json({
-      status: false,
       message: errorMessage,
+      status: false,
       error: err,
     });
   }
@@ -44,8 +44,8 @@ const getAllCars = async (req: Request, res: Response) => {
     }
 
     res.status(500).json({
-      status: false,
       message: errorMessage,
+      status: false,
       error: err,
     });
   }
@@ -67,8 +67,8 @@ const getSingleCar = async (req: Request, res: Response) => {
       errorMessage = err.message;
     }
     res.status(500).json({
-      status: false,
       message: errorMessage,
+      status: false,
       error: err,
     });
   }
@@ -86,11 +86,15 @@ const updateCar = async (req: Request, res: Response) => {
       message: "Car updated successfully",
       data: result,
     });
-  } catch (error) {
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
     res.send({
+      message: errorMessage,
       status: false,
-      message: "Something went wrong",
-      error,
+      error: err,
     });
   }
 };
@@ -105,11 +109,15 @@ const deleteCar = async (req: Request, res: Response) => {
       message: "Car deleted successfully",
       data: {},
     });
-  } catch (error) {
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
     res.send({
+      message: errorMessage,
       success: false,
-      message: "Something went wrong",
-      error,
+      error: err,
     });
   }
 };

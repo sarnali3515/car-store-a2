@@ -24,8 +24,9 @@ const createOrder = async (req: Request, res: Response) => {
       }
     }
     res.status(statusCode).json({
-      success: false,
       message: errorMessage,
+      success: false,
+      error: err,
     });
   }
 };
@@ -46,8 +47,8 @@ const getAllOrders = async (req: Request, res: Response) => {
     }
 
     res.status(500).json({
-      status: false,
       message: errorMessage,
+      status: false,
       error: err,
     });
   }
@@ -69,8 +70,8 @@ const getSingleOrder = async (req: Request, res: Response) => {
       errorMessage = err.message;
     }
     res.status(500).json({
-      status: false,
       message: errorMessage,
+      status: false,
       error: err,
     });
   }
@@ -88,11 +89,15 @@ const updateOrder = async (req: Request, res: Response) => {
       message: "Order updated successfully",
       data: result,
     });
-  } catch (error) {
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
     res.send({
+      message: errorMessage,
       status: false,
-      message: "Something went wrong",
-      error,
+      error: err,
     });
   }
 };
@@ -107,11 +112,15 @@ const deleteOrder = async (req: Request, res: Response) => {
       message: "Order deleted successfully",
       data: {},
     });
-  } catch (error) {
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
     res.send({
-      success: false,
-      message: "Something went wrong",
-      error,
+      message: errorMessage,
+      status: false,
+      error: err,
     });
   }
 };
@@ -128,11 +137,15 @@ const getTotalRevenue = async (req: Request, res: Response): Promise<void> => {
         totalRevenue,
       },
     });
-  } catch (error) {
-    res.status(500).json({
-      message: "Something went wrong",
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+    res.send({
+      message: errorMessage,
       status: false,
-      error: error instanceof Error ? error.message : error,
+      error: err,
     });
   }
 };

@@ -9,6 +9,10 @@ const orderSchema = new Schema<TOrder>(
         true,
         "Email is required. Please provide a valid email address for the order.",
       ],
+      match: [
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        "Please provide a valid email address.",
+      ],
     },
     car: {
       type: Schema.Types.ObjectId,
@@ -24,6 +28,7 @@ const orderSchema = new Schema<TOrder>(
         true,
         "Quantity is required. Please specify the number of cars you want to order.",
       ],
+      min: [0, "Quantity must be a positive number."],
     },
     totalPrice: {
       type: Number,
@@ -31,9 +36,10 @@ const orderSchema = new Schema<TOrder>(
         true,
         "Total price is required. Please provide the total price for the order.",
       ],
+      min: [0, "totalPrice must be a positive number."],
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export const OrderModel = model<TOrder>("order", orderSchema);

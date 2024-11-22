@@ -17,10 +17,12 @@ const carSchema = new Schema<TCar>(
         true,
         "Year is required. Please provide the car's manufacturing year.",
       ],
+      min: [0, "Year must be a positive number."],
     },
     price: {
       type: Number,
       required: [true, "Price is required. Please provide the car's price."],
+      min: [0, "Price must be a positive number."],
     },
     category: {
       type: String,
@@ -43,6 +45,7 @@ const carSchema = new Schema<TCar>(
         true,
         "Quantity is required. Please specify how many units are available.",
       ],
+      min: [0, "Quantity must be a positive number."],
     },
     inStock: {
       type: Boolean,

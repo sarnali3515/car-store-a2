@@ -5,4 +5,6 @@ const router = express.Router();
 
 //controller needed
 
-router.post("/cars", CarController.createCar);
+router.post("/", CarController.createCar);
+
+export const CarRoute = router;

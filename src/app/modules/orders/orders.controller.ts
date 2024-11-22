@@ -3,10 +3,10 @@ import { OrderServices } from "./orders.service";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const order = req.body;
+    const { order: orderData } = req.body;
 
     // service func
-    const result = await OrderServices.createOrderIntoDB(order);
+    const result = await OrderServices.createOrderIntoDB(orderData);
 
     //send response
     res.status(200).json({

@@ -3,10 +3,10 @@ import { CarServices } from "./car.service";
 
 const createCar = async (req: Request, res: Response) => {
   try {
-    const car = req.body;
+    const { car: carData } = req.body;
 
     // service func
-    const result = await CarServices.createCarIntoDB(car);
+    const result = await CarServices.createCarIntoDB(carData);
 
     //send response
     res.status(200).json({

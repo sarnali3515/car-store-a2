@@ -14,8 +14,17 @@ const createCar = async (req: Request, res: Response) => {
       message: "Car is created Successfully",
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
+    res.status(500).json({
+      status: false,
+      message: errorMessage,
+      error: err,
+    });
   }
 };
 
@@ -42,7 +51,31 @@ const getAllCars = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleCar = async (req: Request, res: Response) => {
+  try {
+    const { carId } = req.params;
+    const result = await CarServices.getSingleCarFromDB(carId);
+
+    res.status(200).json({
+      status: true,
+      message: "Car retrieved Successfully",
+      data: result,
+    });
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+    res.status(500).json({
+      status: false,
+      message: errorMessage,
+      error: err,
+    });
+  }
+};
+
 export const CarController = {
   createCar,
   getAllCars,
+  getSingleCar,
 };

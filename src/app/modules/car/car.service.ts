@@ -11,8 +11,8 @@ const getAllCarFromDB = async () => {
   return result;
 };
 
-const getSingleCarFromDB = async (id: string) => {
-  const result = await CarModel.findOne({ id });
+const getSingleCarFromDB = async (_id: string) => {
+  const result = await CarModel.findOne({ _id });
   return result;
 };
 

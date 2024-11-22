@@ -18,7 +18,30 @@ const createOrder = async (req: Request, res: Response) => {
     console.log(err);
   }
 };
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const result = await OrderServices.getAllOrderFromDB();
+
+    res.status(200).json({
+      status: true,
+      message: "Orders retrieved successfully",
+      data: result,
+    });
+  } catch (err: unknown) {
+    let errorMessage = "Something went wrong";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
+    res.status(500).json({
+      status: false,
+      message: errorMessage,
+      error: err,
+    });
+  }
+};
 
 export const OrderController = {
   createOrder,
+  getAllOrders,
 };

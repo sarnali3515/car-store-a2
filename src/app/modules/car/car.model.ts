@@ -52,4 +52,4 @@ const carSchema = new Schema<TCar>({
   },
 });
 
-export const Car = model<TCar>("car", carSchema);
+export const CarModel = model<TCar>("car", carSchema);

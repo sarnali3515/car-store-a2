@@ -11,7 +11,7 @@ const createCar = async (req: Request, res: Response) => {
     //send response
     res.status(200).json({
       success: true,
-      message: "Student is created Successfully",
+      message: "Car is created Successfully",
       data: result,
     });
   } catch (err) {

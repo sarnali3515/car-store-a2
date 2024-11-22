@@ -33,7 +33,7 @@ const orderSchema = new Schema<TOrder>(
       ],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const OrderModel = model<TOrder>("order", orderSchema);

@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import { CarRoute } from "./app/modules/car/car.route";
+import { CarRoute } from "./app/modules/cars/car.route";
 import { OrderRoute } from "./app/modules/orders/orders.route";
 const app: Application = express();
 

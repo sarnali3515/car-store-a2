@@ -11,6 +11,26 @@ const getAllOrderFromDB = async () => {
   return result;
 };
 
+const getSingleOrderFromDB = async (_id: string) => {
+  const result = await OrderModel.findOne({ _id });
+  return result;
+};
+
+const updateOrderInDB = async (_id: string, updatedData: Partial<TOrder>) => {
+  const result = await OrderModel.findByIdAndUpdate(_id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
+};
+
+const deleteOrderInDB = async (_id: string) => {
+  const result = await OrderModel.findByIdAndDelete(_id, {
+    new: true,
+  });
+  return result;
+};
+
 const calculateRevenue = async () => {
   const pipeline = [
     {
@@ -29,5 +49,8 @@ const calculateRevenue = async () => {
 export const OrderServices = {
   createOrderIntoDB,
   getAllOrderFromDB,
+  getSingleOrderFromDB,
+  updateOrderInDB,
+  deleteOrderInDB,
   calculateRevenue,
 };

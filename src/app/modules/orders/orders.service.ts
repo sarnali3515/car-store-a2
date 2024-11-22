@@ -11,13 +11,23 @@ const getAllOrderFromDB = async () => {
   return result;
 };
 
-const getSingleOrderFromDB = async (id: string) => {
-  const result = await OrderModel.findOne({ id });
-  return result;
+const calculateRevenue = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: "$totalPrice" },
+      },
+    },
+  ];
+
+  const result = await OrderModel.aggregate(pipeline);
+
+  return result.length > 0 ? result[0].totalRevenue : 0;
 };
 
 export const OrderServices = {
   createOrderIntoDB,
   getAllOrderFromDB,
-  getSingleOrderFromDB,
+  calculateRevenue,
 };

@@ -11,7 +11,8 @@ const orderSchema = new Schema<TOrder>(
       ],
     },
     car: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "Car",
       required: [
         true,
         "Car selection is required. Please specify which car you are ordering.",
@@ -32,7 +33,7 @@ const orderSchema = new Schema<TOrder>(
       ],
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export const OrderModel = model<TOrder>("order", orderSchema);

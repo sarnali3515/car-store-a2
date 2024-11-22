@@ -5,7 +5,6 @@ const createOrder = async (req: Request, res: Response) => {
   try {
     const { order: orderData } = req.body;
 
-    // service func
     const result = await OrderServices.createOrderIntoDB(orderData);
 
     //send response
@@ -14,8 +13,20 @@ const createOrder = async (req: Request, res: Response) => {
       message: "Order is created Successfully",
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: unknown) {
+    let statusCode = 500;
+    let errorMessage = "Something went wrong";
+
+    if (err instanceof Error) {
+      errorMessage = err.message;
+      if (err.message.includes("Insufficient stock")) {
+        statusCode = 400;
+      }
+    }
+    res.status(statusCode).json({
+      success: false,
+      message: errorMessage,
+    });
   }
 };
 

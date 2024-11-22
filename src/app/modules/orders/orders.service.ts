@@ -1,7 +1,31 @@
+import { CarModel } from "../cars/car.model";
 import { TOrder } from "./orders.interface";
 import { OrderModel } from "./orders.model";
 
 const createOrderIntoDB = async (order: TOrder) => {
+  const { car, quantity } = order;
+
+  // Fetch car details
+  const carDetails = await CarModel.findById(car);
+
+  if (!carDetails) {
+    throw new Error("Car not found");
+  }
+
+  // stock check
+  if (carDetails.quantity < quantity) {
+    throw new Error(
+      `Insufficient stock. Only ${carDetails.quantity} cars are available.`
+    );
+  }
+
+  // update car inventory
+  carDetails.quantity -= quantity;
+  if (carDetails.quantity === 0) {
+    carDetails.inStock = false;
+  }
+  await carDetails.save();
+
   const result = await OrderModel.create(order);
   return result;
 };

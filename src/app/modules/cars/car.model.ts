@@ -50,9 +50,10 @@ const carSchema = new Schema<TCar>(
         true,
         "Stock status is required. Please indicate whether the car is in stock.",
       ],
+      default: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export const CarModel = model<TCar>("car", carSchema);

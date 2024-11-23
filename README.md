@@ -40,7 +40,7 @@
 
    ```bash
    git clone https://github.com/sarnali3515/car-store-a2
-   cd car-store-management
+   cd car-store-a2
    ```
 
 2. Install dependencies:
@@ -59,6 +59,5 @@
 4. Start the server:
 
    ```bash
-   Copy code
    npm run start:dev
    ```

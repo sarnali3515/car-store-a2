@@ -10,6 +10,24 @@ const getAllCarFromDB = async () => {
   const result = await CarModel.find();
   return result;
 };
+const getCarsBySearchTerm = async (searchTerm: string) => {
+  // for all cars
+  if (!searchTerm) {
+    return CarModel.find();
+  }
+
+  // query
+  const query = {
+    $or: [
+      { brand: { $regex: searchTerm, $options: "i" } },
+      { model: { $regex: searchTerm, $options: "i" } },
+      { category: { $regex: searchTerm, $options: "i" } },
+    ],
+  };
+
+  const result = await CarModel.find(query);
+  return result;
+};
 
 const getSingleCarFromDB = async (_id: string) => {
   const result = await CarModel.findOne({ _id });
@@ -34,6 +52,7 @@ const deleteCarInDB = async (_id: string) => {
 export const CarServices = {
   createCarIntoDB,
   getAllCarFromDB,
+  getCarsBySearchTerm,
   getSingleCarFromDB,
   updateCarInDB,
   deleteCarInDB,

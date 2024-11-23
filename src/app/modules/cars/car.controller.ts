@@ -30,7 +30,10 @@ const createCar = async (req: Request, res: Response) => {
 
 const getAllCars = async (req: Request, res: Response) => {
   try {
-    const result = await CarServices.getAllCarFromDB();
+    // search term from param
+    const { searchTerm } = req.query;
+
+    const result = await CarServices.getCarsBySearchTerm(searchTerm as string);
 
     res.status(200).json({
       status: true,

@@ -5,10 +5,7 @@ const orderSchema = new Schema<TOrder>(
   {
     email: {
       type: String,
-      required: [
-        true,
-        "Email is required. Please provide a valid email address for the order.",
-      ],
+      required: [true, "Email is required."],
       match: [
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         "Please provide a valid email address.",
@@ -39,7 +36,10 @@ const orderSchema = new Schema<TOrder>(
       min: [0, "totalPrice must be a positive number."],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 
 export const OrderModel = model<TOrder>("order", orderSchema);

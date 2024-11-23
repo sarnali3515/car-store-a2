@@ -62,11 +62,18 @@ const getAllCars = async (req: Request, res: Response) => {
   }
 };
 
-const getSingleCar = async (req: Request, res: Response) => {
+const getSingleCar = async (req: Request, res: Response): Promise<void> => {
   try {
     const { carId } = req.params;
     const result = await CarServices.getSingleCarFromDB(carId);
 
+    if (!result) {
+      res.status(404).json({
+        message: "Car not found",
+        status: false,
+      });
+      return;
+    }
     res.status(200).json({
       status: true,
       message: "Car retrieved Successfully",
@@ -96,10 +103,16 @@ const updateCar = async (req: Request, res: Response) => {
     const carId = req.params.carId;
     const body = req.body;
     const result = await CarServices.updateCarInDB(carId, body);
-
+    if (!result) {
+      res.status(404).json({
+        message: "Car not found",
+        status: false,
+      });
+      return;
+    }
     res.send({
-      status: true,
       message: "Car updated successfully",
+      status: true,
       data: result,
     });
   } catch (err: unknown) {
@@ -123,11 +136,18 @@ const updateCar = async (req: Request, res: Response) => {
 const deleteCar = async (req: Request, res: Response) => {
   try {
     const carId = req.params.carId;
-    await CarServices.deleteCarInDB(carId);
+    const result = await CarServices.deleteCarInDB(carId);
+    if (!result) {
+      res.status(404).json({
+        message: "Car not found",
+        status: false,
+      });
+      return;
+    }
 
     res.send({
-      success: true,
       message: "Car deleted successfully",
+      success: true,
       data: {},
     });
   } catch (err: unknown) {

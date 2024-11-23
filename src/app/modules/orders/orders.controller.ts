@@ -7,11 +7,10 @@ const createOrder = async (req: Request, res: Response) => {
     const { order: orderData } = req.body;
 
     const result = await OrderServices.createOrderIntoDB(orderData);
-
     //send response
     res.status(200).json({
-      success: true,
       message: "Order is created Successfully",
+      success: true,
       data: result,
     });
   } catch (err: unknown) {
@@ -39,10 +38,9 @@ const createOrder = async (req: Request, res: Response) => {
 const getAllOrders = async (req: Request, res: Response) => {
   try {
     const result = await OrderServices.getAllOrderFromDB();
-
     res.status(200).json({
-      status: true,
       message: "Orders retrieved successfully",
+      success: true,
       data: result,
     });
   } catch (err: unknown) {
@@ -68,10 +66,16 @@ const getSingleOrder = async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
     const result = await OrderServices.getSingleOrderFromDB(orderId);
-
+    if (!result) {
+      res.status(404).json({
+        message: "Order not found",
+        status: false,
+      });
+      return;
+    }
     res.status(200).json({
-      status: true,
       message: "Order retrieved Successfully",
+      success: true,
       data: result,
     });
   } catch (err: unknown) {
@@ -98,10 +102,16 @@ const updateOrder = async (req: Request, res: Response) => {
     const orderId = req.params.orderId;
     const body = req.body;
     const result = await OrderServices.updateOrderInDB(orderId, body);
-
+    if (!result) {
+      res.status(404).json({
+        message: "Order not found",
+        status: false,
+      });
+      return;
+    }
     res.send({
-      status: true,
       message: "Order updated successfully",
+      success: true,
       data: result,
     });
   } catch (err: unknown) {
@@ -126,11 +136,17 @@ const updateOrder = async (req: Request, res: Response) => {
 const deleteOrder = async (req: Request, res: Response) => {
   try {
     const orderId = req.params.orderId;
-    await OrderServices.deleteOrderInDB(orderId);
-
+    const result = await OrderServices.deleteOrderInDB(orderId);
+    if (!result) {
+      res.status(404).json({
+        message: "Order not found",
+        status: false,
+      });
+      return;
+    }
     res.send({
-      success: true,
       message: "Order deleted successfully",
+      success: true,
       data: {},
     });
   } catch (err: unknown) {

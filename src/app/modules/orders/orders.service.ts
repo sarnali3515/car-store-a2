@@ -15,7 +15,7 @@ const createOrderIntoDB = async (order: TOrder) => {
   // stock check
   if (carDetails.quantity < quantity) {
     throw new Error(
-      `Insufficient stock. Only ${carDetails.quantity} cars are available.`
+      `Insufficient stock. Only ${carDetails.quantity} cars are available.`,
     );
   }
 

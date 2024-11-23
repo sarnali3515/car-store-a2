@@ -16,14 +16,18 @@ const createCar = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
 
     res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
@@ -42,14 +46,18 @@ const getAllCars = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
 
     res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
@@ -66,13 +74,18 @@ const getSingleCar = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
+
     res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
@@ -91,13 +104,18 @@ const updateCar = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
-    res.send({
+
+    res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
@@ -114,13 +132,18 @@ const deleteCar = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
-    res.send({
+
+    res.status(500).json({
       message: errorMessage,
-      success: false,
+      status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };

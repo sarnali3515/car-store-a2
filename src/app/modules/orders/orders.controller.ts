@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { OrderServices } from "./orders.service";
 
+// Create a Order
 const createOrder = async (req: Request, res: Response) => {
   try {
     const { order: orderData } = req.body;
@@ -16,9 +17,11 @@ const createOrder = async (req: Request, res: Response) => {
   } catch (err: unknown) {
     let statusCode = 500;
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
 
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
       if (err.message.includes("Insufficient stock")) {
         statusCode = 400;
       }
@@ -27,10 +30,12 @@ const createOrder = async (req: Request, res: Response) => {
       message: errorMessage,
       success: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
 
+// Get all Orders
 const getAllOrders = async (req: Request, res: Response) => {
   try {
     const result = await OrderServices.getAllOrderFromDB();
@@ -42,18 +47,23 @@ const getAllOrders = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
 
     res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
 
+// Get single Order
 const getSingleOrder = async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
@@ -66,18 +76,23 @@ const getSingleOrder = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
+
     res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
 
-//update data
+//update Order
 const updateOrder = async (req: Request, res: Response) => {
   try {
     const orderId = req.params.orderId;
@@ -91,17 +106,23 @@ const updateOrder = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
-    res.send({
+
+    res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
 
+//Delete Order
 const deleteOrder = async (req: Request, res: Response) => {
   try {
     const orderId = req.params.orderId;
@@ -114,18 +135,23 @@ const deleteOrder = async (req: Request, res: Response) => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
-    res.send({
+
+    res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };
 
-// revenue
+// Total Revenue
 const getTotalRevenue = async (req: Request, res: Response): Promise<void> => {
   try {
     const totalRevenue = await OrderServices.calculateRevenue();
@@ -139,13 +165,18 @@ const getTotalRevenue = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (err: unknown) {
     let errorMessage = "Something went wrong";
+    let stackTrace = null;
+
     if (err instanceof Error) {
       errorMessage = err.message;
+      stackTrace = err.stack;
     }
-    res.send({
+
+    res.status(500).json({
       message: errorMessage,
       status: false,
       error: err,
+      stack: stackTrace,
     });
   }
 };

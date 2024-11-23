@@ -10,6 +10,7 @@ const getAllCarFromDB = async () => {
   const result = await CarModel.find();
   return result;
 };
+
 const getCarsBySearchTerm = async (searchTerm: string) => {
   // for all cars
   if (!searchTerm) {
